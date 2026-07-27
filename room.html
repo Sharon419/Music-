@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SyncSound — Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Shown while we're still joining, or if a name is needed (e.g. arrived via QR link) -->
+<div class="center-shell" id="joinGate">
+  <div class="card">
+    <div class="brand" style="justify-content:center; margin-bottom:22px;">
+      <div class="dot-orbit">
+        <span style="top:0; left:7px;"></span>
+        <span style="top:7px; left:14px;"></span>
+        <span style="top:14px; left:3px;"></span>
+      </div>
+      SyncSound
+    </div>
+    <label>Your name</label>
+    <input type="text" id="gateName" maxlength="24" placeholder="Your name">
+    <label>Password (if this room has one)</label>
+    <input type="password" id="gatePassword" placeholder="Optional">
+    <p class="error-text" id="gateError" style="display:none;"></p>
+    <button class="btn btn-solid" id="gateJoinBtn">Join room</button>
+  </div>
+</div>
+
+<div class="room-shell" id="roomShell">
+  <div class="room-header">
+    <div class="brand"><div class="dot-orbit"><span style="top:0; left:7px;"></span><span style="top:7px; left:14px;"></span><span style="top:14px; left:3px;"></span></div>SyncSound</div>
+    <div class="code-block">
+      <span class="code-label mono">room code</span>
+      <div class="code-row">
+        <span class="room-code-badge" id="roomCodeBadge">····-····</span>
+        <button class="icon-btn" id="copyCodeBtn" title="Copy code">⧉</button>
+      </div>
+      <button class="link-btn" id="copyLinkBtn">Copy invite link</button>
+    </div>
+    <div class="qr-box"><img id="qrImg" alt="Scan to join"></div>
+  </div>
+
+  <div class="main-col">
+    <div class="panel" id="hostUploadPanel" style="display:none;">
+      <h3>Add a track</h3>
+      <div class="upload-row">
+        <input type="file" id="fileInput" accept="audio/*">
+      </div>
+    </div>
+
+    <div class="panel player-panel">
+      <p class="no-track" id="noTrackMsg">Waiting for the host to add a track.</p>
+
+      <div class="now-playing-head" id="nowPlayingHead" style="display:none;">
+        <div class="cover-art" id="coverArt"><span>♪</span></div>
+        <div class="track-meta">
+          <h2 class="track-title" id="trackTitle"></h2>
+          <p class="track-sub" id="trackSub">Playing in this room</p>
+        </div>
+        <button class="fav-btn" id="favBtn" title="Favorite">♡</button>
+      </div>
+
+      <div class="bars" id="bars"><!-- bars injected by JS --></div>
+
+      <div class="progress-row">
+        <span class="time mono" id="timeElapsed">0:00</span>
+        <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="time mono" id="timeRemaining">0:00</span>
+      </div>
+
+      <div class="transport-v2">
+        <button class="ctrl-btn" id="restartBtn" title="Restart track">⏮</button>
+        <button class="play-toggle" id="playToggleBtn" disabled title="Play">▶</button>
+        <button class="ctrl-btn" id="skipBtn" title="Skip to next track">⏭</button>
+        <div class="vol-row-v2">
+          <span class="mono" style="font-size:11px; color:var(--ice-dim);">VOL</span>
+          <input type="range" id="volSlider" min="0" max="100" value="80">
+        </div>
+      </div>
+      <span class="countdown" id="countdown"></span>
+
+      <p class="status-line wait" id="statusLine">not ready</p>
+      <button class="btn btn-ghost" id="readyBtn" style="margin-top:14px;" disabled>Mark ready</button>
+    </div>
+
+    <div class="panel" id="playlistPanel" style="display:none;">
+      <h3>Playlist</h3>
+      <div id="playlistList"></div>
+    </div>
+  </div>
+
+  <div class="side-col">
+    <div class="panel">
+      <h3>In this room</h3>
+      <div class="member-list" id="memberList"></div>
+      <div class="lock-row" id="lockRow" style="margin-top:16px; display:none;">
+        <span>Lock room</span>
+        <label class="switch"><input type="checkbox" id="lockToggle"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Chat</h3>
+      <div class="chat-log" id="chatLog"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Say something…" maxlength="300">
+        <button class="btn btn-solid btn-sm" id="chatSendBtn">Send</button>
+      </div>
+      <div class="reactions-row">
+        <button data-emoji="❤️">❤️</button>
+        <button data-emoji="🔥">🔥</button>
+        <button data-emoji="😂">😂</button>
+        <button data-emoji="👏">👏</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="player" preload="auto"></audio>
+<div class="toast" id="toast"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="room.js"></script>
+</body>
+</html>

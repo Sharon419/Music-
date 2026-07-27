@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SyncSound — Turn every phone into a speaker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="center-shell">
+  <div style="width:100%; max-width:420px;">
+    <div class="brand" style="justify-content:center; margin-bottom:26px;">
+      <div class="dot-orbit">
+        <span style="top:0; left:7px;"></span>
+        <span style="top:7px; left:14px;"></span>
+        <span style="top:14px; left:3px;"></span>
+      </div>
+      SyncSound
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" id="tabCreate">Create room</div>
+        <div class="tab" id="tabJoin">Join room</div>
+      </div>
+
+      <form id="createForm">
+        <label>Your name</label>
+        <input type="text" id="createName" maxlength="24" placeholder="Host" required>
+        <label>Room password (optional)</label>
+        <input type="password" id="createPassword" placeholder="Leave blank for open room">
+        <p class="error-text" id="createError" style="display:none;"></p>
+        <button class="btn btn-solid" type="submit">Create room</button>
+      </form>
+
+      <form id="joinForm" style="display:none;">
+        <label>Your name</label>
+        <input type="text" id="joinName" maxlength="24" placeholder="Aditi" required>
+        <label>Room code</label>
+        <input type="text" id="joinCode" placeholder="ABC-123" style="text-transform:uppercase;" required>
+        <label>Password (if the room has one)</label>
+        <input type="password" id="joinPassword" placeholder="Optional">
+        <p class="error-text" id="joinError" style="display:none;"></p>
+        <button class="btn btn-solid" type="submit">Join room</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="home.js"></script>
+</body>
+</html>
